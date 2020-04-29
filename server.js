@@ -1,8 +1,11 @@
 // ==================== DEPENDENCIES ================
 var express = require("express");
-var mongojs = require("mongojs");
 var cheerio = require("cheerio");
 var axios = require("axios");
+
+var mongojs = require("mongojs");
+var logger = require("morgan");
+var mongoose = require("mongoose");
 // ---------------------------------------------------
 
 // ==================== SCRAPING TOOLS ================
@@ -28,6 +31,8 @@ app.use(express.static("public"));
 // ---------------------------------------------------
 
 // ================ MIDDLEWARE =======================
+// : software that provides common services to apps outside of the operating system
+// : data mngmt., app srvcs, msg, authentication, API 
 var logger = require("morgan");
 // Configure our app for morgan and body parsing with express.json and express.urlEncoded
 app.use(logger("dev"));
@@ -49,7 +54,7 @@ var collections = ["books"];
 // Connect to the Mongo DB
 mongoose.connect("mongodb://localhost/unit18Populater", { useNewUrlParser: true });
 
-// Routes
+// ==================== ROUTES ===========================
 
 // A GET route for scraping the echoJS website
 app.get("/scrape", function (req, res) {
@@ -144,7 +149,7 @@ app.listen(PORT, function () {
 
 
 // // Make a request via axios to grab the HTML body from the site of your choice
-// axios.get("https://www.thrillest.com").then(function (response) {
+// axios.get("https://www.nytimes.com").then(function (response) {
 
 //     // Load the HTML into cheerio and save it to a variable
 //     // '$' becomes a shorthand for cheerio's selector commands, much like jQuery's '$'
