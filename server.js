@@ -1,11 +1,9 @@
 // ==================== DEPENDENCIES ================
 var express = require("express");
-var cheerio = require("cheerio");
-var axios = require("axios");
-
-var mongojs = require("mongojs");
 var logger = require("morgan");
 var mongoose = require("mongoose");
+
+var mongojs = require("mongojs");
 // ---------------------------------------------------
 
 // ==================== SCRAPING TOOLS ================
@@ -25,45 +23,32 @@ var PORT = 3000;
 var app = express();
 // ---------------------------------------------------
 
-// ============= PUBLIC STATIC FOLDER ================
-// setting up a static folder (public) for out web app
-app.use(express.static("public"));
-// ---------------------------------------------------
-
-// ================ MIDDLEWARE =======================
+// =================== MIDDLEWARE ====================
 // : software that provides common services to apps outside of the operating system
 // : data mngmt., app srvcs, msg, authentication, API 
-var logger = require("morgan");
-// Configure our app for morgan and body parsing with express.json and express.urlEncoded
+
+// Use morgan logger for logging requests
 app.use(logger("dev"));
 // Parse request body as JSON
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 // Make public a static folder
 app.use(express.static("public"));
-
 // ---------------------------------------------------
 
 
-// ============== DATABASE/MONGO CONFIGURATION ========
-// Mongojs configuration
-// var databaseUrl = "warmup";
-// var collections = ["books"];
+// 
 
-
-// Connect to the Mongo DB
-mongoose.connect("mongodb://localhost/unit18Populater", { useNewUrlParser: true });
 
 // ==================== ROUTES ===========================
 
 // A GET route for scraping the echoJS website
 app.get("/scrape", function (req, res) {
     // First, we grab the body of the html with axios
-    axios.get("http://www.echojs.com/").then(function (response) {
+    axios.get("https://mashable.com/").then(function (response) {
         // Then, we load that into cheerio and save it to $ for a shorthand selector
         var $ = cheerio.load(response.data);
 
-        // Now, we grab every h2 within an article tag, and do the following:
         $("article h2").each(function (i, element) {
             // Save an empty result object
             var result = {};
